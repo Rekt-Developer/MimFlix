@@ -1,267 +1,394 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="MimFlix is your ultimate entertainment platform for movies, blogs, and IPTV. Get the best movies and stay updated with tech and cinema trends.">
-    <meta name="keywords" content="entertainment, movies, blogs, IPTV, tech trends, cinema revolution">
-    <meta name="author" content="MimFlix">
-    <meta property="og:title" content="MimFlix - Entertainment Platform">
-    <meta property="og:description" content="MimFlix is your ultimate destination for entertainment, featuring movies, blogs, and IPTV.">
-    <meta property="og:image" content="./logo.svg">
-    <meta property="og:url" content="https://www.mimflix.com">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MimFlix - Entertainment Platform">
-    <meta name="twitter:description" content="MimFlix offers the best in movies, blogs, and IPTV. Stay updated with the latest trends and enjoy endless entertainment.">
-    <meta name="twitter:image" content="./logo.svg">
-    <meta name="twitter:site" content="@mimflix">
-    <title>MimFlix - মনোরঞ্জন প্ল্যাটফর্ম | Entertainment Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MimFlix - Dynamic Entertainment Platform</title>
     <link rel="icon" href="./logo.svg" type="image/svg+xml">
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
 </head>
 <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { BrowserRouter, Switch, Route, Link, useParams, useLocation } = ReactRouterDOM;
-
-        const LANG = {
-            bn: {
-                home: 'হোম',
-                movies: 'সিনেমা',
-                blogs: 'ব্লগ',
-                iptv: 'আইপিটিভি',
-                welcome: 'মিমফ্লিক্সে স্বাগতম',
-                description: 'আপনার সেরা মনোরঞ্জন গন্তব্য',
-                loadContent: 'বিষয়বস্তু লোড করুন'
-            },
-            en: {
-                home: 'Home',
-                movies: 'Movies',
-                blogs: 'Blogs',
-                iptv: 'IPTV',
-                welcome: 'Welcome to MimFlix',
-                description: 'Your ultimate entertainment destination',
-                loadContent: 'Load Content'
-            }
-        };
-
+        // Configuration and Utility Functions
         const CONTENT_TYPES = {
-            blogs: [
-                {
-                    id: 'tech-trends',
-                    title: 'Tech Entertainment Trends',
-                    category: 'Technology',
-                    readTime: '5 min read',
-                    content: `Explore the latest technological innovations transforming entertainment industry...`,
-                    tags: ['tech', 'innovation', 'entertainment']
+            MOVIES: [
+                { 
+                    id: uuid.v4(), 
+                    title: 'Cyber Horizon', 
+                    description: 'Futuristic sci-fi thriller', 
+                    genre: 'Sci-Fi', 
+                    rating: 4.5,
+                    poster: '/path/to/poster1.jpg'
                 },
-                {
-                    id: 'cinema-evolution',
-                    title: 'Digital Cinema Revolution',
-                    category: 'Film',
-                    readTime: '7 min read',
-                    content: `How digital platforms are reshaping modern cinema experiences...`,
-                    tags: ['cinema', 'digital', 'movies']
+                { 
+                    id: uuid.v4(), 
+                    title: 'Digital Dreams', 
+                    description: 'Mind-bending tech narrative', 
+                    genre: 'Technology Drama', 
+                    rating: 4.2,
+                    poster: '/path/to/poster2.jpg'
                 }
             ],
-            movies: [
+            BLOGS: [
                 {
-                    id: 'sci-fi-collection',
-                    title: 'Science Fiction Masterpieces',
-                    genre: 'Sci-Fi',
-                    rating: 4.5,
-                    description: 'Curated collection of groundbreaking sci-fi movies...'
+                    id: uuid.v4(),
+                    title: 'Future of Streaming',
+                    author: 'Tech Insights',
+                    excerpt: 'Deep dive into next-generation entertainment technologies...',
+                    date: '2024-01-15',
+                    readTime: '5 min read'
                 },
                 {
-                    id: 'indie-films',
-                    title: 'Independent Cinema Gems',
-                    genre: 'Independent',
-                    rating: 4.2,
-                    description: 'Discover hidden masterpieces from independent filmmakers...'
+                    id: uuid.v4(),
+                    title: 'Cinema in Digital Age',
+                    author: 'Film Enthusiast',
+                    excerpt: 'How digital platforms are revolutionizing movie experiences...',
+                    date: '2024-02-20',
+                    readTime: '7 min read'
+                }
+            ],
+            IPTV: [
+                {
+                    id: uuid.v4(),
+                    name: 'Entertainment Hub',
+                    category: 'Entertainment',
+                    channels: 50,
+                    description: 'Wide range of entertainment channels'
+                },
+                {
+                    id: uuid.v4(),
+                    name: 'Sports Network',
+                    category: 'Sports',
+                    channels: 30,
+                    description: 'Live sports from around the globe'
                 }
             ]
         };
 
-        const COLORS = {
-            primary: '#4a148c',
-            secondary: '#ff4081',
-            background: '#121212',
-            text: '#ffffff',
-            accent: '#7c4dff',
-        };
-
-        const BlogDetail = () => {
-            const { blogId } = useParams();
-            const blog = CONTENT_TYPES.blogs.find(b => b.id === blogId);
-
-            if (!blog) return <div>Blog Not Found</div>;
-
-            return (
-                <div className="blog-detail">
-                    <h2>{blog.title}</h2>
-                    <div className="blog-meta">
-                        <span>{blog.category}</span>
-                        <span>{blog.readTime}</span>
-                    </div>
-                    <p>{blog.content}</p>
-                    <div className="blog-tags">
-                        {blog.tags.map(tag => (
-                            <span key={tag} className="tag">{tag}</span>
-                        ))}
-                    </div>
-                </div>
-            );
-        };
-
-        const App = () => {
-            const [language, setLanguage] = React.useState('en');
+        // Main Application Component
+        const MimFlixApp = () => {
             const [activeSection, setActiveSection] = React.useState('home');
-            const [contentLoaded, setContentLoaded] = React.useState(false);
-            const location = useLocation();
+            const [selectedContent, setSelectedContent] = React.useState(null);
 
+            // Deep Linking and URL Management
             React.useEffect(() => {
-                const path = location.pathname;
-                if (path === '/') setActiveSection('home');
-                else if (path.includes('/blogs')) setActiveSection('blogs');
-                else if (path.includes('/movies')) setActiveSection('movies');
-                else if (path.includes('/iptv')) setActiveSection('iptv');
-            }, [location]);
+                const handleHashChange = () => {
+                    const hash = window.location.hash.replace('#', '');
+                    const [section, contentId] = hash.split('/');
+                    
+                    if (section) {
+                        setActiveSection(section);
+                        if (contentId) {
+                            const content = CONTENT_TYPES[section.toUpperCase()]?.find(item => item.id === contentId);
+                            setSelectedContent(content);
+                        }
+                    }
+                };
 
-            const toggleLanguage = () => {
-                setLanguage(language === 'en' ? 'bn' : 'en');
+                window.addEventListener('hashchange', handleHashChange);
+                handleHashChange(); // Initial check
+
+                return () => window.removeEventListener('hashchange', handleHashChange);
+            }, []);
+
+            // Navigation Handler
+            const navigateTo = (section, content = null) => {
+                setActiveSection(section);
+                setSelectedContent(content);
+
+                // Update URL for deep linking
+                if (content) {
+                    window.location.hash = `${section}/${content.id}`;
+                } else {
+                    window.location.hash = section;
+                }
             };
 
-            const currentLang = LANG[language];
-
-            const loadContent = () => {
-                setContentLoaded(true);
+            // Render Content Based on Active Section
+            const renderContent = () => {
+                switch(activeSection) {
+                    case 'home':
+                        return <HomePage />;
+                    case 'movies':
+                        return (
+                            <MoviesSection 
+                                movies={CONTENT_TYPES.MOVIES} 
+                                onSelectMovie={(movie) => navigateTo('movies', movie)}
+                                selectedMovie={selectedContent}
+                            />
+                        );
+                    case 'blogs':
+                        return (
+                            <BlogsSection 
+                                blogs={CONTENT_TYPES.BLOGS} 
+                                onSelectBlog={(blog) => navigateTo('blogs', blog)}
+                                selectedBlog={selectedContent}
+                            />
+                        );
+                    case 'iptv':
+                        return (
+                            <IPTVSection 
+                                channels={CONTENT_TYPES.IPTV}
+                                onSelectChannel={(channel) => navigateTo('iptv', channel)}
+                                selectedChannel={selectedContent}
+                            />
+                        );
+                    default:
+                        return <HomePage />;
+                }
             };
 
             return (
-                <div className="app-container" style={{ backgroundColor: COLORS.background }}>
-                    <nav className="modern-navbar">
-                        <div className="navbar-brand">
-                            <img src="./logo.svg" alt="MimFlix Logo" className="navbar-logo" />
+                <div className="mimflix-container">
+                    <header className="app-header">
+                        <div className="logo-container">
+                            <img src="./logo.svg" alt="MimFlix Logo" className="logo" />
                             <h1>MimFlix</h1>
                         </div>
-                        <div className="navbar-menu">
-                            <Link 
-                                to="/" 
-                                className={`nav-item ${activeSection === 'home' ? 'active' : ''}`}
-                            >
-                                <i className="ri-home-line"></i> {currentLang.home}
-                            </Link>
-                            <Link 
-                                to="/movies" 
-                                className={`nav-item ${activeSection === 'movies' ? 'active' : ''}`}
-                            >
-                                <i className="ri-movie-line"></i> {currentLang.movies}
-                            </Link>
-                            <Link 
-                                to="/blogs" 
-                                className={`nav-item ${activeSection === 'blogs' ? 'active' : ''}`}
-                            >
-                                <i className="ri-article-line"></i> {currentLang.blogs}
-                            </Link>
-                            <Link 
-                                to="/iptv" 
-                                className={`nav-item ${activeSection === 'iptv' ? 'active' : ''}`}
-                            >
-                                <i className="ri-tv-line"></i> {currentLang.iptv}
-                            </Link>
-                        </div>
-                        <div className="navbar-actions">
-                            <button onClick={toggleLanguage} className="language-toggle">
-                                {language === 'en' ? 'বাংলা' : 'English'}
-                            </button>
-                        </div>
-                    </nav>
+                        <nav className="main-nav">
+                            {['home', 'movies', 'blogs', 'iptv'].map(section => (
+                                <button 
+                                    key={section}
+                                    className={`nav-btn ${activeSection === section ? 'active' : ''}`}
+                                    onClick={() => navigateTo(section)}
+                                >
+                                    {section.charAt(0).toUpperCase() + section.slice(1)}
+                                </button>
+                            ))}
+                        </nav>
+                    </header>
 
-                    <main className="content-wrapper">
-                        <button onClick={loadContent} className="done-button">{currentLang.loadContent}</button>
-                        {contentLoaded ? (
-                            <Switch>
-                                <Route exact path="/">
-                                    <HomePage language={language} />
-                                </Route>
-                                <Route exact path="/movies">
-                                    <MoviesPage language={language} />
-                                </Route>
-                                <Route exact path="/blogs">
-                                    <BlogsPage language={language} />
-                                </Route>
-                                <Route path="/blogs/:blogId">
-                                    <BlogDetail />
-                                </Route>
-                                <Route path="/iptv">
-                                    <IPTVPage language={language} />
-                                </Route>
-                            </Switch>
-                        ) : (
-                            <div>Loading content...</div>
-                        )}
+                    <main className="content-area">
+                        {renderContent()}
                     </main>
 
                     <footer className="app-footer">
-                        <div className="footer-content">
-                            <p>© 2024 MimFlix. All Rights Reserved.</p>
-                            <div className="social-links">
-                                <a href="#" target="_blank" rel="noopener noreferrer">
-                                    <i className="ri-facebook-circle-fill"></i>
-                                </a>
-                                <a href="#" target="_blank" rel="noopener noreferrer">
-                                    <i className="ri-twitter-fill"></i>
-                                </a>
-                                <a href="#" target="_blank" rel="noopener noreferrer">
-                                    <i className="ri-instagram-fill"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <p>© 2024 MimFlix. All Rights Reserved.</p>
                     </footer>
                 </div>
             );
         };
 
-        const HomePage = ({ language }) => (
-            <div className="home-container">
-                <h1>{LANG[language].welcome}</h1>
-                <p>{LANG[language].description}</p>
+        // Individual Section Components
+        const HomePage = () => (
+            <div className="home-section">
+                <h2>Welcome to MimFlix</h2>
+                <p>Your ultimate entertainment destination</p>
             </div>
         );
 
-        const MoviesPage = ({ language }) => (
-            <div className="movies-container">
-                <h2>{LANG[language].movies}</h2>
-                {/* Movies content */}
-            </div>
-        );
+        const MoviesSection = ({ movies, onSelectMovie, selectedMovie }) => {
+            if (selectedMovie) {
+                return (
+                    <div className="movie-detail">
+                        <h2>{selectedMovie.title}</h2>
+                        <img src={selectedMovie.poster} alt={selectedMovie.title} />
+                        <p>{selectedMovie.description}</p>
+                        <p>Genre: {selectedMovie.genre}</p>
+                        <p>Rating: {selectedMovie.rating}/5</p>
+                        <button onClick={() => onSelectMovie(null)}>Back to Movies</button>
+                    </div>
+                );
+            }
 
-        const BlogsPage = ({ language }) => (
-            <div className="blogs-container">
-                <h2>{LANG[language].blogs}</h2>
-                {/* Blogs content */}
-            </div>
-        );
+            return (
+                <div className="movies-grid">
+                    {movies.map(movie => (
+                        <div 
+                            key={movie.id} 
+                            className="movie-card"
+                            onClick={() => onSelectMovie(movie)}
+                        >
+                            <img src={movie.poster} alt={movie.title} />
+                            <h3>{movie.title}</h3>
+                            <p>{movie.genre}</p>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
 
-        const IPTVPage = ({ language }) => (
-            <div className="iptv-container">
-                <h2>{LANG[language].iptv}</h2>
-                {/* IPTV content */}
-            </div>
-        );
+        const BlogsSection = ({ blogs, onSelectBlog, selectedBlog }) => {
+            if (selectedBlog) {
+                return (
+                    <div className="blog-detail">
+                        <h2>{selectedBlog.title}</h2>
+                        <p>By {selectedBlog.author}</p>
+                        <p>{selectedBlog.excerpt}</p>
+                        <p>Published: {selectedBlog.date}</p>
+                        <button onClick={() => onSelectBlog(null)}>Back to Blogs</button>
+                    </div>
+                );
+            }
 
-        ReactDOM.render(
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>,
-            document.getElementById('root')
-        );
+            return (
+                <div className="blogs-list">
+                    {blogs.map(blog => (
+                        <div 
+                            key={blog.id} 
+                            className="blog-card"
+                            onClick={() => onSelectBlog(blog)}
+                        >
+                            <h3>{blog.title}</h3>
+                            <p>{blog.excerpt}</p>
+                            <div className="blog-meta">
+                                <span>{blog.author}</span>
+                                <span>{blog.readTime}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        const IPTVSection = ({ channels, onSelectChannel, selectedChannel }) => {
+            if (selectedChannel) {
+                return (
+                    <div className="channel-detail">
+                        <h2>{selectedChannel.name}</h2>
+                        <p>Category: {selectedChannel.category}</p>
+                        <p>Total Channels: {selectedChannel.channels}</p>
+                        <p>{selectedChannel.description}</p>
+                        <button onClick={() => onSelectChannel(null)}>Back to Channels</button>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="channels-grid">
+                    {channels.map(channel => (
+                        <div 
+                            key={channel.id} 
+                            className="channel-card"
+                            onClick={() => onSelectChannel(channel)}
+                        >
+                            <h3>{channel.name}</h3>
+                            <p>{channel.category}</p>
+                            <p>{channel.channels} Channels</p>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        // Render the Application
+        ReactDOM.render(<MimFlixApp />, document.getElementById('root'));
     </script>
+
+    <style>
+        :root {
+            --primary-color: #6200ee;
+            --secondary-color: #03dac6;
+            --background-color: #121212;
+            --text-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .mimflix-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            max-height: 50px;
+            margin-right: 15px;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-btn.active {
+            color: var(--secondary-color);
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-btn.active::after {
+            width: 100%;
+        }
+
+        .content-area {
+            min-height: 70vh;
+        }
+
+        .movies-grid, .blogs-list, .channels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .movie-card, .blog-card, .channel-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover, .blog-card:hover, .channel-card:hover {
+            transform: scale(1.05);
+        }
+
+        .app-footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            border-top: 2px solid var(--secondary-color);
+        }
+    </style>
 </body>
 </html>
