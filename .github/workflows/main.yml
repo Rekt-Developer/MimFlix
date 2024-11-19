@@ -27,7 +27,7 @@ jobs:
           chmod +x ./startup.sh
           ./startup.sh
 
-      # Step 4: Force Create Dummy Changes if None Exist
+      # Step 4: Force Create Changes if Necessary
       - name: Force Create Changes if Necessary
         run: |
           if git status --porcelain | grep -q '^ M'; then
@@ -46,27 +46,18 @@ jobs:
           git push origin main
 
       # Step 6: Notify via Email
-      - name: Notify via GitHub Actions Mail Bot
+      - name: Send Email Notification
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
           server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "MimFlix Deployment Workflow Notification"
+          subject: "MimFlix Deployment Notification"
           body: |
-            The deployment workflow has been successfully executed. 
+            The MimFlix deployment workflow has been successfully executed. 
 
             Branch: main
             Commit Message: Automated: Project files created or updated by startup.sh
-          to: "user@example.com"
-          from: "MimFlix Bot <github-actions-bot@mimflix.com>"
-
-      # Optional Step: Slack Notification (If Slack Integration Required)
-      - name: Notify via Slack (Optional)
-        if: always()
-        uses: rtCamp/action-slack-notify@v2
-        with:
-          status: ${{ job.status }}
-          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          message: "MimFlix Workflow Completed with Status: ${{ job.status }}."
+          to: ${{ secrets.RECIPIENT_EMAIL }}
+          from: MimFlix Bot <${{ secrets.EMAIL_USERNAME }}>
