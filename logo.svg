@@ -1,33 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
-  <defs>
-    <linearGradient id="movieGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0066cc;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#003366;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  
-  <rect width="500" height="500" rx="50" fill="url(#movieGradient)"/>
-  
-  <g transform="translate(100, 100) scale(0.6)">
-    <path 
-      d="M100 50 L250 150 L100 250 Z" 
-      fill="white"
-    />
-    <path 
-      d="M250 50 L400 150 L250 250 Z" 
-      fill="white" 
-      opacity="0.7"
-    />
-  </g>
-  
-  <text 
-    x="250" 
-    y="400" 
-    text-anchor="middle" 
-    font-size="80" 
-    fill="white" 
-    font-weight="bold"
-  >
-    MimFlix
-  </text>
+    <defs>
+        <!-- Gradient for the background -->
+        <linearGradient id="mimflixGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#d4145a; stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#240b36; stop-opacity:1" />
+        </linearGradient>
+    </defs>
+
+    <!-- Background with rounded corners -->
+    <rect width="500" height="500" rx="50" fill="url(#mimflixGradient)" />
+
+    <!-- Icon elements -->
+    <g transform="translate(120, 120) scale(0.7)">
+        <!-- Left triangle -->
+        <path 
+            d="M100 50 L250 150 L100 250 Z" 
+            fill="white"
+        />
+        <!-- Right triangle with opacity -->
+        <path 
+            d="M250 50 L400 150 L250 250 Z" 
+            fill="white" 
+            opacity="0.7"
+        />
+    </g>
+
+    <!-- MimFlix text -->
+    <text 
+        x="250" 
+        y="420" 
+        text-anchor="middle" 
+        font-size="80" 
+        fill="white" 
+        font-weight="bold"
+        font-family="Arial, Helvetica, sans-serif"
+    >
+        MimFlix
+    </text>
 </svg>
