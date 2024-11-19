@@ -6,7 +6,7 @@
     <title>MimFlix - মনোরঞ্জন প্ল্যাটফর্ম | Entertainment Platform</title>
     <link rel="icon" href="./logo.svg" type="image/svg+xml">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
@@ -18,7 +18,7 @@
     <script type="text/babel">
         const { BrowserRouter, Switch, Route, Link, useParams, useLocation } = ReactRouterDOM;
 
-        // Multilingual Content
+        // Multilingual Content Configuration
         const LANG = {
             bn: {
                 home: 'হোম',
@@ -38,46 +38,40 @@
             }
         };
 
-        // Mock Data with Advanced Categorization
-        const CONTENT_DATA = {
+        // Advanced Content Configurations
+        const CONTENT_TYPES = {
             blogs: [
                 {
-                    id: 1,
-                    title: 'Future of Streaming',
+                    id: 'tech-trends',
+                    title: 'Tech Entertainment Trends',
                     category: 'Technology',
-                    language: ['en', 'bn'],
-                    content: 'Exploring the next generation of digital entertainment...',
-                    author: 'Tech Insider',
-                    date: '2024-01-15',
-                    tags: ['streaming', 'technology', 'future']
+                    readTime: '5 min read',
+                    content: `Explore the latest technological innovations transforming entertainment industry...`,
+                    tags: ['tech', 'innovation', 'entertainment']
                 },
                 {
-                    id: 2,
-                    title: 'সিনেমার বিবর্তন',
-                    category: 'Cinema',
-                    language: ['bn'],
-                    content: 'বাংলা সিনেমার ইতিহাস ও বর্তমান...',
-                    author: 'সিনেমা পত্রিকা',
-                    date: '2024-02-20',
-                    tags: ['সিনেমা', 'বাংলা', 'ইতিহাস']
+                    id: 'cinema-evolution',
+                    title: 'Digital Cinema Revolution',
+                    category: 'Film',
+                    readTime: '7 min read',
+                    content: `How digital platforms are reshaping modern cinema experiences...`,
+                    tags: ['cinema', 'digital', 'movies']
                 }
             ],
             movies: [
                 {
-                    id: 1,
-                    title: 'Digital Dreams',
+                    id: 'sci-fi-collection',
+                    title: 'Science Fiction Masterpieces',
                     genre: 'Sci-Fi',
-                    language: ['en'],
                     rating: 4.5,
-                    poster: '/images/digital-dreams.jpg'
+                    description: 'Curated collection of groundbreaking sci-fi movies...'
                 },
                 {
-                    id: 2,
-                    title: 'আমার ভুল',
-                    genre: 'Drama',
-                    language: ['bn'],
-                    rating: 4.7,
-                    poster: '/images/amar-bhul.jpg'
+                    id: 'indie-films',
+                    title: 'Independent Cinema Gems',
+                    genre: 'Independent',
+                    rating: 4.2,
+                    description: 'Discover hidden masterpieces from independent filmmakers...'
                 }
             ]
         };
@@ -91,101 +85,44 @@
             accent: '#7c4dff',
         };
 
-        // Detailed Blog Component
+        // Blog Detail Component
         const BlogDetail = () => {
             const { blogId } = useParams();
-            const blog = CONTENT_DATA.blogs.find(b => b.id === parseInt(blogId));
+            const blog = CONTENT_TYPES.blogs.find(b => b.id === blogId);
 
             if (!blog) return <div>Blog Not Found</div>;
 
             return (
-                <div className="blog-detail container mt-4">
-                    <h1>{blog.title}</h1>
+                <div className="blog-detail">
+                    <h2>{blog.title}</h2>
                     <div className="blog-meta">
-                        <span>Author: {blog.author}</span>
-                        <span>Date: {blog.date}</span>
-                        <span>Category: {blog.category}</span>
+                        <span>{blog.category}</span>
+                        <span>{blog.readTime}</span>
                     </div>
-                    <div className="blog-content mt-3">
-                        {blog.content}
-                    </div>
-                    <div className="blog-tags mt-3">
+                    <p>{blog.content}</p>
+                    <div className="blog-tags">
                         {blog.tags.map(tag => (
-                            <span key={tag} className="badge bg-secondary me-2">{tag}</span>
+                            <span key={tag} className="tag">{tag}</span>
                         ))}
                     </div>
                 </div>
             );
         };
 
-        // Blogs Page with Advanced Filtering
-        const BlogsPage = () => {
-            const [selectedCategory, setSelectedCategory] = React.useState(null);
-            const [selectedLanguage, setSelectedLanguage] = React.useState(null);
-
-            const filteredBlogs = CONTENT_DATA.blogs.filter(blog => 
-                (!selectedCategory || blog.category === selectedCategory) &&
-                (!selectedLanguage || blog.language.includes(selectedLanguage))
-            );
-
-            const categories = [...new Set(CONTENT_DATA.blogs.map(blog => blog.category))];
-            const languages = [...new Set(CONTENT_DATA.blogs.flatMap(blog => blog.language))];
-
-            return (
-                <div className="blogs-page container mt-4">
-                    <h1>Blogs</h1>
-                    
-                    <div className="filter-section mb-4">
-                        <select 
-                            className="form-select me-2" 
-                            onChange={(e) => setSelectedCategory(e.target.value || null)}
-                        >
-                            <option value="">All Categories</option>
-                            {categories.map(category => (
-                                <option key={category} value={category}>{category}</option>
-                            ))}
-                        </select>
-
-                        <select 
-                            className="form-select" 
-                            onChange={(e) => setSelectedLanguage(e.target.value || null)}
-                        >
-                            <option value="">All Languages</option>
-                            {languages.map(lang => (
-                                <option key={lang} value={lang}>{lang.toUpperCase()}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className="blogs-list">
-                        {filteredBlogs.map(blog => (
-                            <div key={blog.id} className="card mb-3">
-                                <div className="card-body">
-                                    <Link 
-                                        to={`/blogs/${blog.id}`} 
-                                        className="blog-link"
-                                    >
-                                        <h5 className="card-title">{blog.title}</h5>
-                                    </Link>
-                                    <p className="card-text">{blog.content.slice(0, 100)}...</p>
-                                    <div className="blog-meta">
-                                        <span className="badge bg-secondary me-2">{blog.category}</span>
-                                        {blog.language.map(lang => (
-                                            <span key={lang} className="badge bg-info me-2">{lang}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            );
-        };
-
-        // Main App Component with Advanced Navigation
+        // Main App Component
         const App = () => {
             const [language, setLanguage] = React.useState('en');
+            const [activeSection, setActiveSection] = React.useState('home');
             const location = useLocation();
+
+            React.useEffect(() => {
+                // Update active section based on current route
+                const path = location.pathname;
+                if (path === '/') setActiveSection('home');
+                else if (path.includes('/blogs')) setActiveSection('blogs');
+                else if (path.includes('/movies')) setActiveSection('movies');
+                else if (path.includes('/iptv')) setActiveSection('iptv');
+            }, [location]);
 
             const toggleLanguage = () => {
                 setLanguage(language === 'en' ? 'bn' : 'en');
@@ -193,111 +130,145 @@
 
             const currentLang = LANG[language];
 
-            // Generate shareable direct link
-            const generateShareableLink = () => {
-                return `https://mimflix.com${location.pathname}`;
-            };
-
             return (
                 <div className="app-container" style={{ backgroundColor: COLORS.background }}>
-                    {/* Navbar */}
-                    <nav className="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: COLORS.primary }}>
-                        <div className="container-fluid">
-                            <Link className="navbar-brand" to="/">
-                                <img src="./logo.svg" alt="MimFlix Logo" style={{ height: '40px' }} />
-                                MimFlix
+                    {/* Navigation Bar */}
+                    <nav className="modern-navbar">
+                        <div className="navbar-brand">
+                            <img src="./logo.svg" alt="MimFlix Logo" className="navbar-logo" />
+                            <h1>MimFlix</h1>
+                        </div>
+                        <div className="navbar-menu">
+                            <Link 
+                                to="/" 
+                                className={`nav-item ${activeSection === 'home' ? 'active' : ''}`}
+                            >
+                                <i className="ri-home-line"></i> {currentLang.home}
                             </Link>
-                            
-                            <div className="navbar-nav">
-                                <Link className="nav-link" to="/">{currentLang.home}</Link>
-                                <Link className="nav-link" to="/movies">{currentLang.movies}</Link>
-                                <Link className="nav-link" to="/blogs">{currentLang.blogs}</Link>
-                                <Link className="nav-link" to="/iptv">{currentLang.iptv}</Link>
-                            </div>
-
-                            <div className="navbar-actions">
-                                <button 
-                                    className="btn btn-outline-light me-2"
-                                    onClick={toggleLanguage}
-                                >
-                                    {language === 'en' ? 'বাংলা' : 'English'}
-                                </button>
-                                <button 
-                                    className="btn btn-outline-light"
-                                    onClick={() => navigator.clipboard.writeText(generateShareableLink())}
-                                >
-                                    Share Link
-                                </button>
-                            </div>
+                            <Link 
+                                to="/movies" 
+                                className={`nav-item ${activeSection === 'movies' ? 'active' : ''}`}
+                            >
+                                <i className="ri-movie-line"></i> {currentLang.movies}
+                            </Link>
+                            <Link 
+                                to="/blogs" 
+                                className={`nav-item ${activeSection === 'blogs' ? 'active' : ''}`}
+                            >
+                                <i className="ri-article-line"></i> {currentLang.blogs}
+                            </Link>
+                            <Link 
+                                to="/iptv" 
+                                className={`nav-item ${activeSection === 'iptv' ? 'active' : ''}`}
+                            >
+                                <i className="ri-tv-line"></i> {currentLang.iptv}
+                            </Link>
+                        </div>
+                        <div className="navbar-actions">
+                            <button onClick={toggleLanguage} className="language-toggle">
+                                {language === 'en' ? 'বাংলা' : 'English'}
+                            </button>
                         </div>
                     </nav>
 
-                    {/* Content Area */}
-                    <div className="content-section">
+                    {/* Main Content Area */}
+                    <main className="content-wrapper">
                         <Switch>
                             <Route exact path="/">
                                 <HomePage language={language} />
                             </Route>
+                            <Route exact path="/movies">
+                                <MoviesPage language={language} />
+                            </Route>
                             <Route exact path="/blogs">
-                                <BlogsPage />
+                                <BlogsPage language={language} />
                             </Route>
                             <Route path="/blogs/:blogId">
                                 <BlogDetail />
                             </Route>
-                            <Route path="/movies">
-                                <MoviesPage />
-                            </Route>
                             <Route path="/iptv">
-                                <IPTVPage />
+                                <IPTVPage language={language} />
                             </Route>
                         </Switch>
-                    </div>
+                    </main>
 
                     {/* Footer */}
-                    <footer className="footer mt-auto py-3" style={{ backgroundColor: COLORS.secondary }}>
-                        <div className="container text-center">
-                            <span className="text-white">© 2024 MimFlix. All Rights Reserved.</span>
+                    <footer className="app-footer">
+                        <div className="footer-content">
+                            <p>© 2024 MimFlix. All Rights Reserved.</p>
+                            <div className="social-links">
+                                <a href="#" target="_blank" rel="noopener noreferrer">
+                                    <i className="ri-facebook-circle-fill"></i>
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer">
+                                    <i className="ri-twitter-fill"></i>
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer">
+                                    <i className="ri-instagram-fill"></i>
+                                </a>
+                            </div>
                         </div>
                     </footer>
                 </div>
             );
         };
 
-        // Other Page Components (simplified)
-        const HomePage = ({ language }) => {
+        // Blogs Page Component
+        const BlogsPage = ({ language }) => {
             const currentLang = LANG[language];
             return (
-                <div className="container mt-4">
-                    <h1>{currentLang.welcome}</h1>
-                    <p>{currentLang.description}</p>
+                <div className="blogs-container">
+                    <h2>{currentLang.blogs}</h2>
+                    <div className="blog-list">
+                        {CONTENT_TYPES.blogs.map(blog => (
+                            <Link 
+                                to={`/blogs/${blog.id}`} 
+                                key={blog.id} 
+                                className="blog-card"
+                            >
+                                <h3>{blog.title}</h3>
+                                <div className="blog-meta">
+                                    <span>{blog.category}</span>
+                                    <span>{blog.readTime}</span>
+                                </div>
+                                <p>{blog.content.substring(0, 100)}...</p>
+                                <div className="blog-tags">
+                                    {blog.tags.map(tag => (
+                                        <span key={tag} className="tag">{tag}</span>
+                                    ))}
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             );
         };
 
-        const MoviesPage = () => {
+        // Other Page Components (simplified for brevity)
+        const HomePage = ({ language }) => {
+            const currentLang = LANG[language];
+            return <div>{currentLang.welcome}</div>;
+        };
+
+        const MoviesPage = ({ language }) => {
+            const currentLang = LANG[language];
             return (
-                <div className="container mt-4">
-                    <h1>Movies</h1>
-                    {CONTENT_DATA.movies.map(movie => (
-                        <div key={movie.id} className="card mb-3">
-                            <div className="card-body">
-                                <h5 className="card-title">{movie.title}</h5>
-                                <p>Genre: {movie.genre}</p>
-                                <p>Rating: {movie.rating}</p>
-                            </div>
+                <div className="movies-container">
+                    <h2>{currentLang.movies}</h2>
+                    {CONTENT_TYPES.movies.map(movie => (
+                        <div key={movie.id} className="movie-card">
+                            <h3>{movie.title}</h3>
+                            <p>{movie.genre} | Rating: {movie.rating}</p>
+                            <p>{movie.description}</p>
                         </div>
                     ))}
                 </div>
             );
         };
 
-        const IPTVPage = () => {
-            return (
-                <div className="container mt-4">
-                    <h1>IPTV Channels</h1>
-                    <p>Coming Soon...</p>
-                </div>
-            );
+        const IPTVPage = ({ language }) => {
+            const currentLang = LANG[language];
+            return <div>{currentLang.iptv}</div>;
         };
 
         // Render the App
@@ -310,32 +281,142 @@
     </script>
 
     <style>
-        body {
-            background-color: #121212;
-            color: white;
+        :root {
+            --primary-color: #4a148c;
+            --secondary-color: #ff4081;
+            --background-color: #121212;
+            --text-color: #ffffff;
         }
 
-        .content-section {
-            min-height: calc(100vh - 150px);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .blog-link {
-            color: inherit;
-            text-decoration: none;
+        body, html {
+            font-family: 'Roboto', 'Hind Siliguri', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
-        .blog-link:hover {
-            color: #ff4081;
-        }
-
-        .filter-section {
+        .app-container {
             display: flex;
-            gap: 15px;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        .navbar-actions {
+        .modern-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: rgba(0,0,0,0.8);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
             display: flex;
             align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-logo {
+            height: 40px;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-item {
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-item.active {
+            background-color: var(--secondary-color);
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .content-wrapper {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .blogs-container, .movies-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .blog-card, .movie-card {
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover, .movie-card:hover {
+            transform: scale(1.05);
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 0.8em;
+            color: var(--secondary-color);
+        }
+
+        .blog-tags .tag {
+            background-color: rgba(255,255,255,0.1);
+            padding: 2px 5px;
+            margin-right: 5px;
+            border-radius: 3px;
+            font-size: 0.7em;
+        }
+
+        .app-footer {
+            background-color: rgba(0,0,0,0.5);
+            text-align: center;
+            padding: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5em;
+        }
+
+        .language-toggle {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </body>
