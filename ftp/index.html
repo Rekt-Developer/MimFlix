@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FTP File Manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 10px 0; }
+        a { color: #007bff; text-decoration: none; }
+        .file-details { font-size: 0.9em; color: #555; }
+        .folder { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>FTP File Manager</h1>
+    <div id="file-list">
+        <!-- File and folder list will be dynamically inserted here -->
+    </div>
+
+    <script>
+        // Fetch the list of files and folders from the backend
+        fetch('/api/ftp-files')  // Backend endpoint to get files and folders
+            .then(response => response.json())
+            .then(data => {
+                const fileListContainer = document.getElementById('file-list');
+                data.forEach(item => {
+                    const listItem = document.createElement('li');
+
+                    if (item.type === 'folder') {
+                        // If the item is a folder, display it as a link
+                        listItem.innerHTML = `
+                            <span class="folder">Folder: </span>
+                            <a href="/ftp/${item.path}" target="_blank">${item.name}</a>
+                        `;
+                    } else {
+                        // If the item is a file, display its details
+                        listItem.innerHTML = `
+                            <span>File: </span>
+                            <a href="/ftp/${item.path}" download="${item.name}">${item.name}</a>
+                            <div class="file-details">
+                                Size: ${item.size} bytes | Last Modified: ${item.lastModified}
+                            </div>
+                        `;
+                    }
+
+                    fileListContainer.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching FTP files:', error));
+    </script>
+</body>
+</html>
