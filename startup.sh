@@ -3,11 +3,11 @@
 # MimFlix Project Setup Script
 echo "🚀 Starting the MimFlix project setup..."
 
-# Define project structure
-PROJECT_DIR="MimFlix"
-echo "📁 Creating project directory: $PROJECT_DIR"
-mkdir -p $PROJECT_DIR/{css,images,js,json,xml,movies,blogs/md,ftp,.github/workflows}
+# Create project structure directly in the repo root
+echo "📁 Setting up project structure in the repository root"
+mkdir -p {css,images,js,json,xml,movies,blogs/md,ftp,.github/workflows}
 
+# Create and populate files here as usual...
 # Navigate to the project directory
 cd $PROJECT_DIR
 
