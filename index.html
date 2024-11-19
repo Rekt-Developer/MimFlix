@@ -2,7 +2,19 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="MimFlix is your ultimate entertainment platform for movies, blogs, and IPTV. Get the best movies and stay updated with tech and cinema trends.">
+    <meta name="keywords" content="entertainment, movies, blogs, IPTV, tech trends, cinema revolution">
+    <meta name="author" content="MimFlix">
+    <meta property="og:title" content="MimFlix - Entertainment Platform">
+    <meta property="og:description" content="MimFlix is your ultimate destination for entertainment, featuring movies, blogs, and IPTV.">
+    <meta property="og:image" content="./logo.svg">
+    <meta property="og:url" content="https://www.mimflix.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MimFlix - Entertainment Platform">
+    <meta name="twitter:description" content="MimFlix offers the best in movies, blogs, and IPTV. Stay updated with the latest trends and enjoy endless entertainment.">
+    <meta name="twitter:image" content="./logo.svg">
+    <meta name="twitter:site" content="@mimflix">
     <title>MimFlix - মনোরঞ্জন প্ল্যাটফর্ম | Entertainment Platform</title>
     <link rel="icon" href="./logo.svg" type="image/svg+xml">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -18,7 +30,6 @@
     <script type="text/babel">
         const { BrowserRouter, Switch, Route, Link, useParams, useLocation } = ReactRouterDOM;
 
-        // Multilingual Content Configuration
         const LANG = {
             bn: {
                 home: 'হোম',
@@ -27,6 +38,7 @@
                 iptv: 'আইপিটিভি',
                 welcome: 'মিমফ্লিক্সে স্বাগতম',
                 description: 'আপনার সেরা মনোরঞ্জন গন্তব্য',
+                loadContent: 'বিষয়বস্তু লোড করুন'
             },
             en: {
                 home: 'Home',
@@ -35,10 +47,10 @@
                 iptv: 'IPTV',
                 welcome: 'Welcome to MimFlix',
                 description: 'Your ultimate entertainment destination',
+                loadContent: 'Load Content'
             }
         };
 
-        // Advanced Content Configurations
         const CONTENT_TYPES = {
             blogs: [
                 {
@@ -76,7 +88,6 @@
             ]
         };
 
-        // Color Palette
         const COLORS = {
             primary: '#4a148c',
             secondary: '#ff4081',
@@ -85,7 +96,6 @@
             accent: '#7c4dff',
         };
 
-        // Blog Detail Component
         const BlogDetail = () => {
             const { blogId } = useParams();
             const blog = CONTENT_TYPES.blogs.find(b => b.id === blogId);
@@ -109,14 +119,13 @@
             );
         };
 
-        // Main App Component
         const App = () => {
             const [language, setLanguage] = React.useState('en');
             const [activeSection, setActiveSection] = React.useState('home');
+            const [contentLoaded, setContentLoaded] = React.useState(false);
             const location = useLocation();
 
             React.useEffect(() => {
-                // Update active section based on current route
                 const path = location.pathname;
                 if (path === '/') setActiveSection('home');
                 else if (path.includes('/blogs')) setActiveSection('blogs');
@@ -130,9 +139,12 @@
 
             const currentLang = LANG[language];
 
+            const loadContent = () => {
+                setContentLoaded(true);
+            };
+
             return (
                 <div className="app-container" style={{ backgroundColor: COLORS.background }}>
-                    {/* Navigation Bar */}
                     <nav className="modern-navbar">
                         <div className="navbar-brand">
                             <img src="./logo.svg" alt="MimFlix Logo" className="navbar-logo" />
@@ -171,28 +183,31 @@
                         </div>
                     </nav>
 
-                    {/* Main Content Area */}
                     <main className="content-wrapper">
-                        <Switch>
-                            <Route exact path="/">
-                                <HomePage language={language} />
-                            </Route>
-                            <Route exact path="/movies">
-                                <MoviesPage language={language} />
-                            </Route>
-                            <Route exact path="/blogs">
-                                <BlogsPage language={language} />
-                            </Route>
-                            <Route path="/blogs/:blogId">
-                                <BlogDetail />
-                            </Route>
-                            <Route path="/iptv">
-                                <IPTVPage language={language} />
-                            </Route>
-                        </Switch>
+                        <button onClick={loadContent} className="done-button">{currentLang.loadContent}</button>
+                        {contentLoaded ? (
+                            <Switch>
+                                <Route exact path="/">
+                                    <HomePage language={language} />
+                                </Route>
+                                <Route exact path="/movies">
+                                    <MoviesPage language={language} />
+                                </Route>
+                                <Route exact path="/blogs">
+                                    <BlogsPage language={language} />
+                                </Route>
+                                <Route path="/blogs/:blogId">
+                                    <BlogDetail />
+                                </Route>
+                                <Route path="/iptv">
+                                    <IPTVPage language={language} />
+                                </Route>
+                            </Switch>
+                        ) : (
+                            <div>Loading content...</div>
+                        )}
                     </main>
 
-                    {/* Footer */}
                     <footer className="app-footer">
                         <div className="footer-content">
                             <p>© 2024 MimFlix. All Rights Reserved.</p>
@@ -213,211 +228,40 @@
             );
         };
 
-        // Blogs Page Component
-        const BlogsPage = ({ language }) => {
-            const currentLang = LANG[language];
-            return (
-                <div className="blogs-container">
-                    <h2>{currentLang.blogs}</h2>
-                    <div className="blog-list">
-                        {CONTENT_TYPES.blogs.map(blog => (
-                            <Link 
-                                to={`/blogs/${blog.id}`} 
-                                key={blog.id} 
-                                className="blog-card"
-                            >
-                                <h3>{blog.title}</h3>
-                                <div className="blog-meta">
-                                    <span>{blog.category}</span>
-                                    <span>{blog.readTime}</span>
-                                </div>
-                                <p>{blog.content.substring(0, 100)}...</p>
-                                <div className="blog-tags">
-                                    {blog.tags.map(tag => (
-                                        <span key={tag} className="tag">{tag}</span>
-                                    ))}
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            );
-        };
+        const HomePage = ({ language }) => (
+            <div className="home-container">
+                <h1>{LANG[language].welcome}</h1>
+                <p>{LANG[language].description}</p>
+            </div>
+        );
 
-        // Other Page Components (simplified for brevity)
-        const HomePage = ({ language }) => {
-            const currentLang = LANG[language];
-            return <div>{currentLang.welcome}</div>;
-        };
+        const MoviesPage = ({ language }) => (
+            <div className="movies-container">
+                <h2>{LANG[language].movies}</h2>
+                {/* Movies content */}
+            </div>
+        );
 
-        const MoviesPage = ({ language }) => {
-            const currentLang = LANG[language];
-            return (
-                <div className="movies-container">
-                    <h2>{currentLang.movies}</h2>
-                    {CONTENT_TYPES.movies.map(movie => (
-                        <div key={movie.id} className="movie-card">
-                            <h3>{movie.title}</h3>
-                            <p>{movie.genre} | Rating: {movie.rating}</p>
-                            <p>{movie.description}</p>
-                        </div>
-                    ))}
-                </div>
-            );
-        };
+        const BlogsPage = ({ language }) => (
+            <div className="blogs-container">
+                <h2>{LANG[language].blogs}</h2>
+                {/* Blogs content */}
+            </div>
+        );
 
-        const IPTVPage = ({ language }) => {
-            const currentLang = LANG[language];
-            return <div>{currentLang.iptv}</div>;
-        };
+        const IPTVPage = ({ language }) => (
+            <div className="iptv-container">
+                <h2>{LANG[language].iptv}</h2>
+                {/* IPTV content */}
+            </div>
+        );
 
-        // Render the App
         ReactDOM.render(
             <BrowserRouter>
                 <App />
-            </BrowserRouter>, 
+            </BrowserRouter>,
             document.getElementById('root')
         );
     </script>
-
-    <style>
-        :root {
-            --primary-color: #4a148c;
-            --secondary-color: #ff4081;
-            --background-color: #121212;
-            --text-color: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body, html {
-            font-family: 'Roboto', 'Hind Siliguri', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .modern-navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background-color: rgba(0,0,0,0.8);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .navbar-logo {
-            height: 40px;
-        }
-
-        .navbar-menu {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-item {
-            color: var(--text-color);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .nav-item.active {
-            background-color: var(--secondary-color);
-        }
-
-        .nav-item:hover {
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        .content-wrapper {
-            flex-grow: 1;
-            padding: 20px;
-        }
-
-        .blogs-container, .movies-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .blog-card, .movie-card {
-            background-color: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            padding: 15px;
-            text-decoration: none;
-            color: var(--text-color);
-            transition: transform 0.3s ease;
-        }
-
-        .blog-card:hover, .movie-card:hover {
-            transform: scale(1.05);
-        }
-
-        .blog-meta {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-            font-size: 0.8em;
-            color: var(--secondary-color);
-        }
-
-        .blog-tags .tag {
-            background-color: rgba(255,255,255,0.1);
-            padding: 2px 5px;
-            margin-right: 5px;
-            border-radius: 3px;
-            font-size: 0.7em;
-        }
-
-        .app-footer {
-            background-color: rgba(0,0,0,0.5);
-            text-align: center;
-            padding: 15px;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .social-links a {
-            color: var(--text-color);
-            font-size: 1.5em;
-        }
-
-        .language-toggle {
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
 </body>
 </html>
