@@ -1,0 +1,8 @@
+[
+    {
+        "title": "Example Movie",
+        "year": 2024,
+        "poster": "http://example.com/movie-poster.jpg",
+        "video": "http://example.com/movie.mp4"
+    }
+]
