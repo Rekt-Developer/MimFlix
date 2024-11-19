@@ -173,28 +173,6 @@ cat > xml/sitemap.xml << 'EOF'
 </urlset>
 EOF
 
-echo "⚙️ Creating GitHub Actions deploy.yml"
-mkdir -p .github/workflows
-cat > .github/workflows/deploy.yml << 'EOF'
-name: Deploy MimFlix
 
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Run Startup Script
-        run: |
-          chmod +x startup.sh
-          ./startup.sh
-EOF
 
 echo "✅ MimFlix project setup complete!"
