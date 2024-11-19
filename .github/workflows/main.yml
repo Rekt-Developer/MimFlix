@@ -1,0 +1,32 @@
+name: Deploy MimFlix
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Shell Environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bash
+
+      - name: Run Startup Script
+        run: |
+          chmod +x ./startup.sh
+          ./startup.sh
+
+      - name: Commit and Push Generated Files
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Automated: Project files created by startup.sh"
+          git push origin main
