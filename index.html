@@ -1,394 +1,309 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-BD">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MimFlix - Dynamic Entertainment Platform</title>
-    <link rel="icon" href="./logo.svg" type="image/svg+xml">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
-</head>
-<body>
-    <div id="root"></div>
+    <meta name="description" content="MimFlix - আপনার পছন্দের স্ট্রিমিং প্ল্যাটফর্ম। বাংলা এবং ইংরেজিতে সিনেমা, IPTV, ভিডিও, নিউজ এবং ব্লগ সবকিছু এক জায়গায়।">
+    <meta name="keywords" content="MimFlix, Streaming, Movies, IPTV, Blogs, Videos, Entertainment, Mim Flix, স্ট্রিমিং, মুভি, আইপিটিভি, ব্লগ, ভিডিও">
+    <meta name="author" content="MimFlix Team">
+    <meta property="og:title" content="MimFlix - Stream Your Favorites in Bangla & English">
+    <meta property="og:description" content="Enjoy Movies, IPTV, News, and more on MimFlix. Stream Anytime, Anywhere. আপনার পছন্দের সবকিছু স্ট্রিমিং এক জায়গায়।">
+    <meta property="og:image" content="https://example.com/mimflix-logo.jpg"> <!-- Replace with your logo -->
+    <meta property="og:url" content="https://github.com/MimFlix/MimFlix">
+    <meta property="og:type" content="website">
+    <title>MimFlix - Stream Anytime, Anywhere</title>
 
-    <script type="text/babel">
-        // Configuration and Utility Functions
-        const CONTENT_TYPES = {
-            MOVIES: [
-                { 
-                    id: uuid.v4(), 
-                    title: 'Cyber Horizon', 
-                    description: 'Futuristic sci-fi thriller', 
-                    genre: 'Sci-Fi', 
-                    rating: 4.5,
-                    poster: '/path/to/poster1.jpg'
-                },
-                { 
-                    id: uuid.v4(), 
-                    title: 'Digital Dreams', 
-                    description: 'Mind-bending tech narrative', 
-                    genre: 'Technology Drama', 
-                    rating: 4.2,
-                    poster: '/path/to/poster2.jpg'
-                }
-            ],
-            BLOGS: [
-                {
-                    id: uuid.v4(),
-                    title: 'Future of Streaming',
-                    author: 'Tech Insights',
-                    excerpt: 'Deep dive into next-generation entertainment technologies...',
-                    date: '2024-01-15',
-                    readTime: '5 min read'
-                },
-                {
-                    id: uuid.v4(),
-                    title: 'Cinema in Digital Age',
-                    author: 'Film Enthusiast',
-                    excerpt: 'How digital platforms are revolutionizing movie experiences...',
-                    date: '2024-02-20',
-                    readTime: '7 min read'
-                }
-            ],
-            IPTV: [
-                {
-                    id: uuid.v4(),
-                    name: 'Entertainment Hub',
-                    category: 'Entertainment',
-                    channels: 50,
-                    description: 'Wide range of entertainment channels'
-                },
-                {
-                    id: uuid.v4(),
-                    name: 'Sports Network',
-                    category: 'Sports',
-                    channels: 30,
-                    description: 'Live sports from around the globe'
-                }
-            ]
-        };
+    <!-- Import Libraries -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Optional: Custom CSS -->
 
-        // Main Application Component
-        const MimFlixApp = () => {
-            const [activeSection, setActiveSection] = React.useState('home');
-            const [selectedContent, setSelectedContent] = React.useState(null);
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico">
 
-            // Deep Linking and URL Management
-            React.useEffect(() => {
-                const handleHashChange = () => {
-                    const hash = window.location.hash.replace('#', '');
-                    const [section, contentId] = hash.split('/');
-                    
-                    if (section) {
-                        setActiveSection(section);
-                        if (contentId) {
-                            const content = CONTENT_TYPES[section.toUpperCase()]?.find(item => item.id === contentId);
-                            setSelectedContent(content);
-                        }
-                    }
-                };
-
-                window.addEventListener('hashchange', handleHashChange);
-                handleHashChange(); // Initial check
-
-                return () => window.removeEventListener('hashchange', handleHashChange);
-            }, []);
-
-            // Navigation Handler
-            const navigateTo = (section, content = null) => {
-                setActiveSection(section);
-                setSelectedContent(content);
-
-                // Update URL for deep linking
-                if (content) {
-                    window.location.hash = `${section}/${content.id}`;
-                } else {
-                    window.location.hash = section;
-                }
-            };
-
-            // Render Content Based on Active Section
-            const renderContent = () => {
-                switch(activeSection) {
-                    case 'home':
-                        return <HomePage />;
-                    case 'movies':
-                        return (
-                            <MoviesSection 
-                                movies={CONTENT_TYPES.MOVIES} 
-                                onSelectMovie={(movie) => navigateTo('movies', movie)}
-                                selectedMovie={selectedContent}
-                            />
-                        );
-                    case 'blogs':
-                        return (
-                            <BlogsSection 
-                                blogs={CONTENT_TYPES.BLOGS} 
-                                onSelectBlog={(blog) => navigateTo('blogs', blog)}
-                                selectedBlog={selectedContent}
-                            />
-                        );
-                    case 'iptv':
-                        return (
-                            <IPTVSection 
-                                channels={CONTENT_TYPES.IPTV}
-                                onSelectChannel={(channel) => navigateTo('iptv', channel)}
-                                selectedChannel={selectedContent}
-                            />
-                        );
-                    default:
-                        return <HomePage />;
-                }
-            };
-
-            return (
-                <div className="mimflix-container">
-                    <header className="app-header">
-                        <div className="logo-container">
-                            <img src="./logo.svg" alt="MimFlix Logo" className="logo" />
-                            <h1>MimFlix</h1>
-                        </div>
-                        <nav className="main-nav">
-                            {['home', 'movies', 'blogs', 'iptv'].map(section => (
-                                <button 
-                                    key={section}
-                                    className={`nav-btn ${activeSection === section ? 'active' : ''}`}
-                                    onClick={() => navigateTo(section)}
-                                >
-                                    {section.charAt(0).toUpperCase() + section.slice(1)}
-                                </button>
-                            ))}
-                        </nav>
-                    </header>
-
-                    <main className="content-area">
-                        {renderContent()}
-                    </main>
-
-                    <footer className="app-footer">
-                        <p>© 2024 MimFlix. All Rights Reserved.</p>
-                    </footer>
-                </div>
-            );
-        };
-
-        // Individual Section Components
-        const HomePage = () => (
-            <div className="home-section">
-                <h2>Welcome to MimFlix</h2>
-                <p>Your ultimate entertainment destination</p>
-            </div>
-        );
-
-        const MoviesSection = ({ movies, onSelectMovie, selectedMovie }) => {
-            if (selectedMovie) {
-                return (
-                    <div className="movie-detail">
-                        <h2>{selectedMovie.title}</h2>
-                        <img src={selectedMovie.poster} alt={selectedMovie.title} />
-                        <p>{selectedMovie.description}</p>
-                        <p>Genre: {selectedMovie.genre}</p>
-                        <p>Rating: {selectedMovie.rating}/5</p>
-                        <button onClick={() => onSelectMovie(null)}>Back to Movies</button>
-                    </div>
-                );
-            }
-
-            return (
-                <div className="movies-grid">
-                    {movies.map(movie => (
-                        <div 
-                            key={movie.id} 
-                            className="movie-card"
-                            onClick={() => onSelectMovie(movie)}
-                        >
-                            <img src={movie.poster} alt={movie.title} />
-                            <h3>{movie.title}</h3>
-                            <p>{movie.genre}</p>
-                        </div>
-                    ))}
-                </div>
-            );
-        };
-
-        const BlogsSection = ({ blogs, onSelectBlog, selectedBlog }) => {
-            if (selectedBlog) {
-                return (
-                    <div className="blog-detail">
-                        <h2>{selectedBlog.title}</h2>
-                        <p>By {selectedBlog.author}</p>
-                        <p>{selectedBlog.excerpt}</p>
-                        <p>Published: {selectedBlog.date}</p>
-                        <button onClick={() => onSelectBlog(null)}>Back to Blogs</button>
-                    </div>
-                );
-            }
-
-            return (
-                <div className="blogs-list">
-                    {blogs.map(blog => (
-                        <div 
-                            key={blog.id} 
-                            className="blog-card"
-                            onClick={() => onSelectBlog(blog)}
-                        >
-                            <h3>{blog.title}</h3>
-                            <p>{blog.excerpt}</p>
-                            <div className="blog-meta">
-                                <span>{blog.author}</span>
-                                <span>{blog.readTime}</span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            );
-        };
-
-        const IPTVSection = ({ channels, onSelectChannel, selectedChannel }) => {
-            if (selectedChannel) {
-                return (
-                    <div className="channel-detail">
-                        <h2>{selectedChannel.name}</h2>
-                        <p>Category: {selectedChannel.category}</p>
-                        <p>Total Channels: {selectedChannel.channels}</p>
-                        <p>{selectedChannel.description}</p>
-                        <button onClick={() => onSelectChannel(null)}>Back to Channels</button>
-                    </div>
-                );
-            }
-
-            return (
-                <div className="channels-grid">
-                    {channels.map(channel => (
-                        <div 
-                            key={channel.id} 
-                            className="channel-card"
-                            onClick={() => onSelectChannel(channel)}
-                        >
-                            <h3>{channel.name}</h3>
-                            <p>{channel.category}</p>
-                            <p>{channel.channels} Channels</p>
-                        </div>
-                    ))}
-                </div>
-            );
-        };
-
-        // Render the Application
-        ReactDOM.render(<MimFlixApp />, document.getElementById('root'));
-    </script>
-
+    <!-- Custom Styles for Advanced UI -->
     <style>
-        :root {
-            --primary-color: #6200ee;
-            --secondary-color: #03dac6;
-            --background-color: #121212;
-            --text-color: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            background: linear-gradient(to bottom, #1e1e1e, #333);
+            font-family: 'Roboto', sans-serif;
         }
 
-        .mimflix-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        .bg-gradient {
+            background: linear-gradient(to right, #00b0ff, #0077b6);
+            color: #fff;
         }
 
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--secondary-color);
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #0069d9;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
+        .btn-primary:hover {
+            background-color: #0069d9;
         }
 
-        .logo {
-            max-height: 50px;
-            margin-right: 15px;
+        .btn-outline-light {
+            border-color: #fff;
+            color: #fff;
         }
 
-        .main-nav {
-            display: flex;
-            gap: 20px;
+        .btn-outline-light:hover {
+            background-color: #fff;
+            color: #007bff;
         }
 
-        .nav-btn {
-            background: transparent;
+        .card {
             border: none;
-            color: var(--text-color);
-            font-weight: 500;
-            cursor: pointer;
-            position: relative;
-            transition: color 0.3s ease;
+            transition: transform 0.3s;
         }
 
-        .nav-btn.active {
-            color: var(--secondary-color);
-        }
-
-        .nav-btn::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--secondary-color);
-            transition: width 0.3s ease;
-        }
-
-        .nav-btn.active::after {
-            width: 100%;
-        }
-
-        .content-area {
-            min-height: 70vh;
-        }
-
-        .movies-grid, .blogs-list, .channels-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .movie-card, .blog-card, .channel-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 15px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .movie-card:hover, .blog-card:hover, .channel-card:hover {
+        .card:hover {
             transform: scale(1.05);
         }
 
-        .app-footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            border-top: 2px solid var(--secondary-color);
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .text-light {
+            color: #e6e6e6 !important;
+        }
+
+        .text-primary {
+            color: #007bff !important;
+        }
+
+        .bg-black {
+            background-color: #1e1e1e !important;
+        }
+
+        .bg-dark {
+            background-color: #333 !important;
+        }
+
+        .shadow-sm {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+        }
+
+        .shadow {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .animate__animated.animate__fadeInDown {
+            animation-duration: 1s;
+        }
+
+        .animate__animated.animate__fadeInUp {
+            animation-duration: 1s;
+        }
+
+        .animate__animated.animate__bounceIn {
+            animation-duration: 0.7s;
+        }
+
+        /* Custom styles for partnerships section */
+        #partners {
+            background: linear-gradient(to right, #00b0ff, #0077b6);
+            color: #fff;
+        }
+
+        #partners img {
+            max-height: 70px;
+            transition: transform 0.3s;
+        }
+
+        #partners img:hover {
+            transform: scale(1.1);
         }
     </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="#">
+                <i class="fa fa-film me-2"></i>MimFlix
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#movies">
+                            <i class="fa fa-film me-2"></i>
+                            <span class="text-light">মুভি</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#iptv">
+                            <i class="fa fa-tv me-2"></i>
+                            <span class="text-light">IPTV</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#videos">
+                            <i class="fa fa-video me-2"></i>
+                            <span class="text-light">ভিডিও</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#blogs">
+                            <i class="fa fa-blog me-2"></i>
+                            <span class="text-light">ব্লগ</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#partners">
+                            <i class="fa fa-handshake me-2"></i>
+                            <span class="text-light">পার্টনার</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="text-center py-5 bg-gradient">
+        <div class="container">
+            <h1 class="display-3 fw-bold animate__animated animate__fadeInDown text-primary">
+                MimFlix: <span class="text-light">Stream Anytime, Anywhere</span>
+            </h1>
+            <p class="lead animate__animated animate__fadeInUp">
+                আপনার পছন্দের সিনেমা, IPTV, ভিডিও, ব্লগ এবং অনেক কিছু এক জায়গায়।
+            </p>
+            <a href="#movies" class="btn btn-primary btn-lg me-2 animate__animated animate__bounceIn">
+                <i class="fa fa-play-circle me-2"></i>
+                <span class="text-light">মুভি দেখুন</span>
+            </a>
+            <a href="#iptv" class="btn btn-outline-light btn-lg animate__animated animate__bounceIn">
+                <i class="fa fa-tv me-2"></i>
+                <span class="text-light">IPTV দেখুন</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Content Sections -->
+    <div class="container py-5">
+
+        <!-- Movies Section -->
+        <section id="movies">
+            <h2 class="text-center text-light mb-4">
+                <i class="fa fa-film me-2"></i>
+                <span class="text-light">মুভি</span>
+            </h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card bg-dark text-light shadow-sm">
+                        <img src="movies/movie1.jpg" class="card-img-top" alt="Movie 1">
+                        <div class="card-body">
+                            <h5 class="card-title">মুভি টাইটেল ১</h5>
+                            <p class="card-text">মুভির একটি সংক্ষিপ্ত বিবরণ।</p>
+                            <a href="#" class="btn btn-primary">দেখুন এখন</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-dark text-light shadow-sm">
+                        <img src="movies/movie2.jpg" class="card-img-top" alt="Movie 2">
+                        <div class="card-body">
+                            <h5 class="card-title">মুভি টাইটেল ২</h5>
+                            <p class="card-text">An exciting movie description in English.</p>
+                            <a href="#" class="btn btn-primary">Watch Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-dark text-light shadow-sm">
+                        <img src="movies/movie3.jpg" class="card-img-top" alt="Movie 3">
+                        <div class="card-body">
+                            <h5 class="card-title">মুভি টাইটেল ৩</h5>
+                            <p class="card-text">Enjoy the best movies on MimFlix.</p>
+                            <a href="#" class="btn btn-primary">দেখুন এখন</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IPTV Section -->
+        <section id="iptv" class="mt-5">
+            <h2 class="text-center text-light mb-4">
+                <i class="fa fa-tv me-2"></i>
+                <span class="text-light">IPTV</span>
+            </h2>
+            <p class="text-center">লাইভ টিভি দেখুন আপনার পছন্দ মতো।</p>
+            <div class="text-center">
+                <a href="iptv/" class="btn btn-success">
+                    <i class="fa fa-play-circle me-2"></i>
+                    <span class="text-light">Access IPTV</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Videos Section -->
+        <section id="videos" class="mt-5">
+            <h2 class="text-center text-light mb-4">
+                <i class="fa fa-video me-2"></i>
+                <span class="text-light">ভিডিও</span>
+            </h2>
+            <p class="text-center">Explore short videos curated just for you.</p>
+            <div class="text-center">
+                <a href="videos/" class="btn btn-primary">
+                    <i class="fa fa-play me-2"></i>
+                    <span class="text-light">Explore Videos</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Blogs Section -->
+        <section id="blogs" class="mt-5">
+            <h2 class="text-center text-light mb-4">
+                <i class="fa fa-blog me-2"></i>
+                <span class="text-light">ব্লগ</span>
+            </h2>
+            <p class="text-center">Discover stories, reviews, and updates from MimFlix.</p>
+            <div class="text-center">
+                <a href="blogs/" class="btn btn-secondary">
+                    <i class="fa fa-book me-2"></i>
+                    <span class="text-light">Read Blogs</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Partnerships Section -->
+        <section id="partners" class="mt-5">
+            <h2 class="text-center text-light mb-4">
+                <i class="fa fa-handshake me-2"></i>
+                <span class="text-light">পার্টনার</span>
+            </h2>
+            <p class="text-center">Proudly partnered with top servers and services for seamless streaming.</p>
+            <div class="text-center">
+                <img src="partners/server1.png" alt="Server 1" class="img-fluid mx-3" style="max-height: 50px;">
+                <img src="partners/server2.png" alt="Server 2" class="img-fluid mx-3" style="max-height: 50px;">
+                <img src="partners/server3.png" alt="Server 3" class="img-fluid mx-3" style="max-height: 50px;">
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black text-light py-4">
+        <div class="container text-center">
+            <p>&copy; 2024 MimFlix. All Rights Reserved. | <a href="#" class="text-primary">Terms</a> | <a href="#" class="text-primary">Privacy</a></p>
+            <div>
+                <a href="#" class="text-light me-3"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-light"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Import JS Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
