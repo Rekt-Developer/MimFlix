@@ -9,7 +9,7 @@ mkdir -p {css,images,js,json,xml,movies,blogs/md,ftp,.github/workflows}
 
 # Create and populate files here as usual...
 # Navigate to the project directory
-cd $PROJECT_DIR
+
 
 echo "🔧 Creating main index.html"
 cat > index.html << 'EOF'
