@@ -1,1 +1,252 @@
+<!DOCTYPE html>
+<html lang="bn,en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MimFlix - আপনার পছন্দের স্ট্রিমিং প্ল্যাটফর্ম</title>
+    
+    <!-- Inline Critical CSS -->
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #003366;
+            --text-color: #ffffff;
+            --bg-dark: #121212;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: rgba(0,0,0,0.9);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-brand img {
+            margin-right: 10px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 1rem;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .content-card {
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: scale(1.05);
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            margin-top: 1rem;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .footer {
+            background-color: rgba(0,0,0,0.9);
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .social-icons {
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            color: var(--text-color);
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            .nav-item {
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <img src="logo.svg" alt="MimFlix Logo">
+            MimFlix
+        </a>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#movies" class="nav-link">Movies</a></li>
+            <li class="nav-item"><a href="#bdix" class="nav-link">BDIX</a></li>
+            <li class="nav-item"><a href="#software" class="nav-link">Software</a></li>
+            <li class="nav-item"><a href="#nas" class="nav-link">NAS</a></li>
+            <li class="nav-item"><a href="#trending" class="nav-link">Trending</a></li>
+        </ul>
+    </nav>
+
+    <!-- Content Grid -->
+    <div class="content-grid">
+        <div class="content-card" id="movies">
+            <h3>🎬 Movies</h3>
+            <p>Explore our vast movie collection in multiple languages</p>
+            <a href="Movies/" class="btn">Browse Movies</a>
+        </div>
+        
+        <div class="content-card" id="bdix">
+            <h3>🌐 BDIX Content</h3>
+            <p>High-speed local and international streaming</p>
+            <a href="BDIX/" class="btn">Explore BDIX</a>
+        </div>
+        
+        <div class="content-card" id="software">
+            <h3>💻 Software</h3>
+            <p>Download useful applications and tools</p>
+            <a href="Software/" class="btn">Get Software</a>
+        </div>
+        
+        <div class="content-card" id="nas">
+            <h3>🗄️ NAS Storage</h3>
+            <p>Centralized network storage solutions</p>
+            <a href="NAS/" class="btn">View NAS</a>
+        </div>
+        
+        <div class="content-card" id="trending">
+            <h3>🔥 Trending</h3>
+            <p>Discover what's hot right now</p>
+            <a href="Trending/" class="btn">See Trending</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 MimFlix. All Rights Reserved.</p>
+        <div class="social-icons">
+            <a href="#" class="fab fa-facebook"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-github"></a>
+        </div>
+    </footer>
+
+    <!-- Inline JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simple active link highlighting
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Simple search functionality (placeholder)
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.placeholder = 'Search content...';
+            searchInput.classList.add('search-input');
+            searchInput.style.cssText = `
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                padding: 0.5rem;
+                border-radius: 5px;
+                border: none;
+                background-color: rgba(255,255,255,0.1);
+                color: white;
+            `;
+            
+            searchInput.addEventListener('input', function() {
+                console.log('Searching for:', this.value);
+                // Placeholder for actual search functionality
+            });
+
+            document.body.appendChild(searchInput);
+        });
+    </script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
